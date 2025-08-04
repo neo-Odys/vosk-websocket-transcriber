@@ -3,7 +3,8 @@
 Real-time speech-to-text transcription from microphone audio using Vosk, streamed live over WebSocket.
 
 ### Requirements
- - rpi zero 2 w with respeaker
+ - RPi zero 2 W
+ - correctly connected respeaker
 
 ### Installation
 
@@ -30,3 +31,6 @@ python3 server.py
  - change index.html to match your server/RPi IP
  - Vosk’s lightweight Polish model can be swapped
  - to recognize speech well, the room must be quiet and you should speak clearly
+
+
+![safeandsoundbyjusticeispick](screenshot.png)
