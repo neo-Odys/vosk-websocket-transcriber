@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Live Transcription</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #0f0; padding: 2em; }
+    #text { font-size: 1.5em; white-space: pre-wrap; max-height: 80vh; overflow-y: auto; }
+    .final { color: #0f0; }
+    .partial { color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Live Subtitles (Chat):</h1>
+  <div id="text">Waiting for audio...</div>
+
+  <script>
+    const textDiv = document.getElementById("text");
+
+    function addMessage(text, type) {
+      if (textDiv.textContent === "Waiting for audio...") {
+        textDiv.textContent = "";
+      }
+      const msg = document.createElement("div");
+      msg.className = type;
+      msg.textContent = text;
+      textDiv.appendChild(msg);
+      textDiv.scrollTop = textDiv.scrollHeight;
+    }
+
+    const ws = new WebSocket("ws://192.168.0.???:8765"); // change to your Pi's IP
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.text) {
+        addMessage(data.text, "final");
+      } else if (data.partial) {        
+        // addMessage(data.partial, "partial");
+      }
+    };
+
+    ws.onopen = () => console.log("WebSocket connected");
+    ws.onclose = () => console.log("WebSocket disconnected");
+  </script>
+</body>
+</html>
+
